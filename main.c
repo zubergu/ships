@@ -11,9 +11,15 @@ int main(void)
   {
     switch(selection)
     {
-      case 1: printf("Here new game will be created\n"); break;
-      case 2: informations(); break;
-      default: printf("And this should never ever happen"); break;
+      case 1: 
+	printf("Here new game will be created\n");
+	break;
+      case 2: 
+	informations(); 
+	break;
+      default:
+	printf("And this should never ever happen");
+	break;
     }
   }
   //create_pl_board(pl_board);

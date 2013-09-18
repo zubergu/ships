@@ -8,4 +8,7 @@ void informations(void)
   printf("* Game being in development for learning    *\n");
   printf("* purpose only.                             *\n");
   printf("*********************************************\n\n\n");
+  printf("Press ENTER to continue...");
+  while(getchar()!='\n') /* wait for user to press enter */
+    continue;
 }
