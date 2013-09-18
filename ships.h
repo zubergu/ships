@@ -39,11 +39,16 @@ void print_cp_board(char (*board)[SIZE]);
 
 /* prints game screen */
 void print_game_screen(char (*pl_board)[SIZE], char (*cp_board)[SIZE]);
+
+
 /*
  * 
- * Additional functions with no special purpose
+ * Additional functions, not vital to usability.
  * 
  */
 
+/* prints information about me:] */
 void informations(void);
+
+
 #endif
