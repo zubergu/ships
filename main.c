@@ -7,14 +7,17 @@ int main(void)
   char pl_board[SIZE][SIZE];
   char cp_board[SIZE][SIZE];
   
-  while((selection=menu())!=3) /* 3 is for quit in menu() function */
+  while((selection=menu())!=QUIT) /* 3 is for quit in menu() function */
   {
     switch(selection)
     {
-      case 1: 
-	printf("Here new game will be created\n");
+      case NEW: 
+	create_pl_board(pl_board);
+	print_pl_board(pl_board);
+	COORDINATES temp={.x='j', .y=10};
+	printf("This point is: %d\n", check_point(pl_board, temp));
 	break;
-      case 2: 
+      case INFO: 
 	informations(); 
 	break;
       default:

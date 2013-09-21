@@ -1,36 +1,108 @@
 #include "ships.h"
 
-/* create player board, get user ships coordinates */
+/*
+ * check if point is correct 
+ * Takes point coordinates and an array and checks if it's in an array and if there is no ship surrounding it
+ */
+int check_point(char (*board)[SIZE], COORDINATES point)
+{
+  int ch_x;
+  int ch_y;
+  int i,j;
+  
+  if(point.x<'a' || point.x>'j' || point.y<1 || point.y>10)
+    return INCORRECT;
+  
+  for(ch_x=point.x-'a'-1, i=0; i<3; i++, ch_x++)
+  {
+    for(ch_y=point.y-2, j=0;j<3;j++,ch_y++)
+    {
+      printf("x= %d, y= %d\n", ch_x, ch_y);
+      if(ch_y<0 || ch_y>(SIZE - 1) || ch_x<0 || ch_x>(SIZE - 1))
+	continue;
+      else
+      {
+	if(board[ch_y][ch_x]=='#')
+	  return INCORRECT;
+      }
+    }
+  }
+  return CORRECT;
+}
+
+
+/* check coordinates */
+int check_coords(char (*board)[SIZE],COORDINATES b, COORDINATES e, int size)
+
+  if(size==1)
+  {
+    return check_point(board,b);
+    
+  }
+  else
+  {
+    /*
+     * ITERATE FROM BEGINNING TO THE END OF THE SHIP
+     * CHECK IF EVERY POINT IS CORRECT
+     * 
+     */
+    
+  }
+  if(is_correct==INCORRECT)
+  {
+    printf("Given coordinates are incorrect. Try again!\n");
+    return INCORRECT;
+  }
+  else
+  {
+    printf("Coordinates correct. Placing ship on the board");
+    return CORRECT;
+  }
+}
+
+
+/* create player board, fill board with user ships coordinates */
 void create_pl_board(char (*board)[SIZE])
 {
-  int correct_coord=0;
-  int i=5; /*number of ships */
-  int j=0;
-  int coor_x;
-  int coor_y;
+  int ships_no=5; /*number of ships , also length of ship being placed */
+  int j=0; /* used only for printing ship in menu */
+  
+  COORDINATES begin;
+  COORDINATES end;
+  
   memset(*board,' ', SIZE*SIZE); /* sets all board fields to ' ' */
-  printf("Place your ships on the board by giving coordinates for beginning and the end.\n");
-  for(i=5;i>0;i--)
+  
+  board[2][2]='#';
+#if 0
+  for(ships_no=5;ships_no>0;ships_no--)
   {
     system("clear");
     printf("Place your ships on the board by giving coordinates for beginning and the end.\n");
     print_pl_board(board);
+    
     printf("Input coordinates for this ship:  ");
-    for(j=i;j>0;j--)
+    for(j=ships_no;j>0;j--) /* ships_no is len of ship to be printed */
       printf("#");
-    correct_coord=0;
-    while(correct_coord==0)
-    {
-      printf("Start 1st coor a-j :");
-      printf("Start 2nd coor 1-10 :");
-      printf("End 1st coor a-j :");
-      printf("End 2nd coor 1-10 :");
-      correct_coord=1;
-    }
     putchar('\n');
-  
+    
+    do{  
+      printf("1st coord for begin: a-j:");
+      scanf(" %c", &begin.x);
+      printf("2nd coord for begin: 1-10:");
+      scanf("%d", &begin.y);
+      if(ships_no==1) /* if you want to place ship # you only need begin coordinates */
+	continue;
+      printf("1st coord for end: a-j:");
+      scanf(" %c", &end.x);
+      printf("2nd coord for end: 1-10:");
+      scanf("%d", &end.y);
+      printf("beg: %c-%d\tend: %c-%d\n", begin.x, begin.y, end.x, end.y);
+    } while(check_coords(board,begin, end, ships_no)!=CORRECT);
+    
+    putchar('\n');
+#endif
+    printf("You succesfully placed all ships on your board!\n");
   }
-}
 
 /* create computer board, place random ship cooridanates */
 void create_cp_board(char (*board)[SIZE])
