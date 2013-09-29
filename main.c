@@ -14,8 +14,6 @@ int main(void)
       case NEW: 
 	create_pl_board(pl_board);
 	print_pl_board(pl_board);
-	COORDINATES temp={.x='j', .y=10};
-	printf("This point is: %d\n", check_point(pl_board, temp));
 	break;
       case INFO: 
 	informations(); 

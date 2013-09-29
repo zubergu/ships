@@ -4,6 +4,8 @@
  * check if point is correct 
  * Takes point coordinates and an array and checks if it's in an array and if there is no ship surrounding it
  */
+
+
 int check_point(char (*board)[SIZE], COORDINATES point)
 {
   int ch_x;
@@ -17,7 +19,6 @@ int check_point(char (*board)[SIZE], COORDINATES point)
   {
     for(ch_y=point.y-2, j=0;j<3;j++,ch_y++)
     {
-      printf("x= %d, y= %d\n", ch_x, ch_y);
       if(ch_y<0 || ch_y>(SIZE - 1) || ch_x<0 || ch_x>(SIZE - 1))
 	continue;
       else
@@ -31,23 +32,88 @@ int check_point(char (*board)[SIZE], COORDINATES point)
 }
 
 
-/* check coordinates */
+/*
+ *
+ * check coordinates of ship and place ship on board if they are correct
+ *
+ */
 int check_coords(char (*board)[SIZE],COORDINATES b, COORDINATES e, int size)
+{
+  int is_correct=CORRECT;
+  int dx, dy;
+  char temp_board[SIZE][SIZE];
+  
+  memcpy(temp_board, board, SIZE*SIZE);
+  
 
   if(size==1)
-  {
-    return check_point(board,b);
-    
-  }
+    {
+      is_correct= check_point(board,b);  
+    }
   else
   {
+    if(b.x==e.x)
+    {
+      dx=0;
+      
+      if(abs(b.y-e.y)+1!=size)
+       is_correct=INCORRECT;
+     
+      dy=(b.y>e.y)? -1:1;
+    }
+    else if (b.y==e.y)
+    {
+      dy=0;
+      if(abs(b.x-e.x)+1!=size)
+	is_correct=INCORRECT;
+      dx=(b.x>e.x)? -1:1;
+      
+    }
+    else
+    {
+      /* beginning and end are not inlined */
+      is_correct=INCORRECT;
+    }
+  }
     /*
      * ITERATE FROM BEGINNING TO THE END OF THE SHIP
      * CHECK IF EVERY POINT IS CORRECT
-     * 
+     * take into account orientation and order of points from previous checking
+     * first check length, if that's wrong there is no point in iterating over
      */
+  if(is_correct==CORRECT && size!=1)
+  {
     
+    while(b.x!=e.x || b.y!=e.y)
+    {
+      if(check_point(board,b)==CORRECT)
+      {
+	printf("%d:%d\n", b.y-1, b.x-'a');
+	temp_board[b.y-1][b.x-'a']='#';
+	b.x +=dx;
+	b.y +=dy;
+      }
+      else
+      {
+	is_correct=INCORRECT;
+	break;
+      }
+    }
   }
+  if(is_correct==CORRECT)
+  {
+    if(check_point(board,b)==CORRECT)
+    {
+      printf("%d:%d\n", b.y-1, b.x-'a');
+      temp_board[b.y-1][b.x-'a']='#';
+      printf("Added last element of ship on board.\n\n");
+     }
+    else
+    {
+      is_correct=INCORRECT;
+    }
+  }
+  
   if(is_correct==INCORRECT)
   {
     printf("Given coordinates are incorrect. Try again!\n");
@@ -55,7 +121,8 @@ int check_coords(char (*board)[SIZE],COORDINATES b, COORDINATES e, int size)
   }
   else
   {
-    printf("Coordinates correct. Placing ship on the board");
+    printf("Coordinates correct. Placing ship on the board\n");
+    memcpy(board, temp_board,SIZE*SIZE);
     return CORRECT;
   }
 }
@@ -72,8 +139,7 @@ void create_pl_board(char (*board)[SIZE])
   
   memset(*board,' ', SIZE*SIZE); /* sets all board fields to ' ' */
   
-  board[2][2]='#';
-#if 0
+#if 1
   for(ships_no=5;ships_no>0;ships_no--)
   {
     system("clear");
@@ -96,13 +162,15 @@ void create_pl_board(char (*board)[SIZE])
       scanf(" %c", &end.x);
       printf("2nd coord for end: 1-10:");
       scanf("%d", &end.y);
-      printf("beg: %c-%d\tend: %c-%d\n", begin.x, begin.y, end.x, end.y);
+      
     } while(check_coords(board,begin, end, ships_no)!=CORRECT);
+        
     
-    putchar('\n');
 #endif
-    printf("You succesfully placed all ships on your board!\n");
   }
+  printf("You succesfully placed all ships on your board!\n");
+
+}
 
 /* create computer board, place random ship cooridanates */
 void create_cp_board(char (*board)[SIZE])

@@ -21,12 +21,14 @@
  */
 #define CORRECT 1
 #define INCORRECT 0
+#define TRUE 1
+#define FALSE 0
 
-/*
+/* * * * * 
  * 
  * Additional functions and declarations of data structures 
- * 
- */
+ *
+ * * * * */
 
 /* prints information about me:] */
 void informations(void);
@@ -39,21 +41,21 @@ typedef struct{
 } COORDINATES;
 
 
-/* 
+/* * * * *
  * 
  * Functions for displaying game title and menu. Getting response from user in main menu
  * 
- */
+ * * * * */
 
 /* display game title, menu and get response, returns integer for proper option */
 int menu(void);
 
 
-/*
+/* * * * *
  * 
  * Set of functions dealing with initializing, creating displaying game boards
  *
- * /
+ * * * * */
 
 /* creates empty player board board and fills it with user ships */
 void create_pl_board(char (*board)[SIZE]);
