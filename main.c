@@ -12,8 +12,10 @@ int main(void)
     switch(selection)
     {
       case NEW: 
-	create_pl_board(pl_board);
-	print_pl_board(pl_board);
+	//create_pl_board(pl_board);
+	create_cp_board(cp_board);
+	//print_pl_board(pl_board);
+	print_pl_board(cp_board);
 	break;
       case INFO: 
 	informations(); 
